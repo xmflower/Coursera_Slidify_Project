@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coursera Slidify Project</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Coursera Slidify Project">
+  <meta name="author" content="xmflower">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Coursera Slidify Project</h1>
+    <h2>Car miles/gallon prediction</h2>
+    <p>xmflower<br/>a coder</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Overview</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>This Shiny application is to predict car&#39;s miles/(US) gallon by its transmission, number of cylinders, and gross horsepower.<br></li>
+<li>The prediction model is created from mtcars of R datasets.<br></li>
+<li>The model is a linear model which has transmission, number of cylinders, gross horsepower as predictors, and miles/gallon as responder.<br></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="2" style="background:;">
+  <hgroup>
+    <h2>How to Use</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>To use the application, do following steps in the left panel:  </p>
+
+<ol>
+<li>select the car&#39;s transmission<br></li>
+<li>select the car&#39;s number of cylinders<br></li>
+<li>enter the car&#39;s gross horsepower<br></li>
+<li>click &quot;submit&quot; button<br></li>
+</ol>
+
+<p>Then you get the prediction of the car&#39;s miles/(us) gallon in the right panel.  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="3" style="background:;">
+  <hgroup>
+    <h2>Details of ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In the sidebarPanel, create a radioButton, a selectInput, a numericInput and a submitButton:</p>
+
+<pre><code class="r">radioButtons(&quot;am&quot;, &quot;Transmission: &quot;, c(&quot;automatic&quot; = 0, &quot;manual&quot; = 1))
+selectInput(&quot;cyl&quot;, &quot;Number of cylinders: &quot;, c(&quot;4&quot; = 4, &quot;6&quot; = 6, &quot;8&quot; = 8))
+numericInput(&quot;hp&quot;, &quot;Gross horsepower (50-350):&quot;, 50, min = 50, max = 350, step = 1)
+submitButton(&quot;submit&quot;)
+</code></pre>
+
+<p>In the mainPanel, create instructions, show the values user entered, and the prediction of MPG:</p>
+
+<pre><code class="r">h3(&quot;Instuctions:&quot;)
+# ...
+h4(&quot;Transmission&quot;)
+verbatimTextOutput(&quot;oam&quot;)
+# ...
+h4(&quot;Prediction of Miles/(US) gallon:&quot;)
+verbatimTextOutput(&quot;ompg&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="4" style="background:;">
+  <hgroup>
+    <h2>Details of server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Put the input parameters into output parameters, create a linear model of mpg by am, cyl and hp, predict with input data, and then put the prodiction to the corresponding output parameter:</p>
+
+<pre><code class="r">function(input, output){
+
+    output$oam &lt;- renderPrint({if (input$am == 0) &quot;automatic&quot; else &quot;manual&quot;})
+    output$ocyl &lt;- renderPrint({input$cyl})
+    output$ohp &lt;- renderPrint({input$hp})
+
+    output$ompg &lt;- renderPrint({
+        fit &lt;- lm(mpg ~ am + cyl + hp, data = mtcars)
+        car &lt;- data.frame(am = as.numeric(input$am), cyl = as.numeric(input$cyl), hp = input$hp)
+        predict(fit, newdata = car)[[1]]})
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="5" style="background:;">
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Overview'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How to Use'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Details of ui.R'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Details of server.R'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title=''>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
