@@ -17,7 +17,7 @@ knit        : slidify::knit2slides
 2. The prediction model is created from mtcars of R datasets.   
 3. The model is a linear model which has transmission, number of cylinders, gross horsepower as predictors, and miles/gallon as responder.   
 
---- .class #2 
+--- 
 
 ## How to Use
   
@@ -30,7 +30,7 @@ To use the application, do following steps in the left panel:
   
 Then you get the prediction of the car's miles/(us) gallon in the right panel.  
 
---- .class #3 
+---
 
 ## Details of ui.R
 
@@ -54,7 +54,7 @@ h4("Prediction of Miles/(US) gallon:")
 verbatimTextOutput("ompg")
 ```
 
---- .class #4
+--- 
 
 ## Details of server.R
 
@@ -73,8 +73,6 @@ function(input, output){
         predict(fit, newdata = car)[[1]]})
 }
 ```
-
---- .class #5
 
 
 
